@@ -1,62 +1,88 @@
-import React, { Component } from "react";
-import { Button, Image, KeyboardAvoidingView, SafeAreaView, ScrollView, StyleSheet, Text, TextInput, View } from "react-native";
+import React, { Component, useState } from "react";
+import { Button, Image, KeyboardAvoidingView, Pressable, SafeAreaView, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
+import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { CheckBox } from "react-native-web";
+import { useNavigation } from "@react-navigation/native";
 
-export default class LoginScreen extends Component {
-  render() {
-    return (
-      <ScrollView contentContainerStyle={styles.container}>
-        <ScrollView style={styles.content}>
-          <Text style={styles.title}>Welcome back</Text>
-          <Image 
-            style={styles.image}
-            source={{
-              uri: 'https://assets-v2.lottiefiles.com/a/5f52011c-1167-11ee-bb7a-87ae82e79a64/8z4Q87i182.gif'
-            }}
-          />
+const LoginScreen = () => {
+ 
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
-          <View style={styles.form}>
-            <TextInput placeholder="Enter email" style={styles.input} />
-            <TextInput placeholder="Enter password" style={styles.input} secureTextEntry />
-            <Button title="Login" color="black" onPress={this.handleLogin} />
-          </View>
-        </ScrollView>
-      </ScrollView>
-    );
-  }
-
+  const navigation = useNavigation();
+  
   handleLogin = () => {
     // Implement your login logic here
   };
+    return (
+     <SafeAreaView style={{flex:1, backgroundColor:"white", alignItems:"center"}}>
+      <View>
+        <Image 
+        style={{width:150, height:100}} 
+        source={{ uri:"https://mabiyshop.com/images/no-item-in-cart.gif"}}
+         />
+      </View>
+
+      <KeyboardAvoidingView>
+        <View style={{alignItems:"center"}}>
+         <Text style={{fontSize: 20, fontWeight:"bold", marginTop:10,color:"#4682B4"}}>Login into your account.</Text>
+        </View>
+
+        <View style={{marginTop:50}}>
+          <View style={{flexDirection:"row", alignItems:"center", gap:5, backgroundColor:"lightgray", padding:5, borderRadius:5 }}>
+            <MaterialCommunityIcons style={{color:"grey"}} name="email-outline" size={24} color="black" />
+            <TextInput 
+            style={{marginVertical:10, width:300, color:"gray", fontSize: email? 18 : 18}}
+             placeholder="Enter your email"
+             value={email}
+             onChangeText={(text) => setEmail(text)}
+             />
+          </View>
+        </View>
+
+        <View style={{marginTop:20}}>
+          <View style={{flexDirection:"row", alignItems:"center", gap:5, backgroundColor:"lightgray", padding:5, borderRadius:5 }}>
+          <MaterialCommunityIcons name="lock-outline" size={24} color="gray" />
+            <TextInput  
+            style={{marginVertical:10, width:300, color:"gray", fontSize: password? 18 : 18}}
+            placeholder="Enter your password"
+            value={password}
+            onChangeText={(text) => setPassword(text)}
+            secureTextEntry={true}
+            />
+          </View>
+        </View>
+
+        <View style={{flexDirection:"row", justifyContent:"space-between", marginTop:15}}>
+          <TouchableOpacity>
+            <Text style={{color:"gray", fontSize:16}}>Keep me logged in</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity onPress={() => navigation.navigate("ForgotPassword")}>
+            <Text style={{color:"blue", fontSize:16}}>Forgot password</Text>
+          </TouchableOpacity>
+        </View>
+
+        <View style={{marginTop:20}} />
+
+       
+        <Pressable style={{width:200, backgroundColor:"#4682B4", padding:10, borderRadius:6, alignItems: "center", marginRight:"auto", marginLeft:"auto"}}>
+            <Text style={{fontSize:20, color:"white", fontWeight:"bold"}}>Login</Text>
+         </Pressable>
+
+         <TouchableOpacity onPress={() => navigation.navigate("Register")} style={{marginTop:10, fontSize:16, alignItems:"center"}}>
+          <Text>Don't have an account? Sign up.</Text>
+         </TouchableOpacity>
+       
+      </KeyboardAvoidingView>
+     </SafeAreaView>
+    );
+  
+
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: 'white',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  content: {
-    alignItems: 'center',
-    width: '80%',
-  },
-  title: {
-    fontSize: 32,
-    fontWeight: 'bold',
-    marginBottom: 20,
-  },
-  image: {
-    width: 200,
-    height: 200,
-    marginBottom: 20,
-  },
-  form: {
-    width: '100%',
-    marginBottom: 20,
-  },
-  input: {
-    backgroundColor: 'lightgray',
-    padding: 10,
-    marginBottom: 10,
-  },
+
 });
+
+export default LoginScreen;
